@@ -39,7 +39,7 @@ function ProductsContent() {
 
   const q = token ? `?token=${encodeURIComponent(token)}` : '';
   const qCat = categoryFilter ? `&categoryId=${encodeURIComponent(categoryFilter)}` : '';
-  const headers = token ? { 'x-admin-token': token } : {};
+  const headers: Record<string, string> = token ? { 'x-admin-token': token } : {};
 
   const fetchProducts = () => {
     fetch(`/api/admin/products${q}${qCat}`, { headers })

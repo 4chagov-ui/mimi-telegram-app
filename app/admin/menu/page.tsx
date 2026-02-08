@@ -1,9 +1,9 @@
 'use client';
 
+import { Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 
-export default function AdminMenuPage() {
+function AdminMenuRedirect() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? '';
 
@@ -13,4 +13,12 @@ export default function AdminMenuPage() {
   }, [token]);
 
   return <div className="text-gray-500">Перенаправление...</div>;
+}
+
+export default function AdminMenuPage() {
+  return (
+    <Suspense fallback={<div className="p-4 text-gray-500">Загрузка...</div>}>
+      <AdminMenuRedirect />
+    </Suspense>
+  );
 }

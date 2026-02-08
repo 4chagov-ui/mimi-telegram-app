@@ -19,7 +19,7 @@ function CategoriesContent() {
   const [addSort, setAddSort] = useState(0);
 
   const q = token ? `?token=${encodeURIComponent(token)}` : '';
-  const headers = token ? { 'x-admin-token': token } : {};
+  const headers: Record<string, string> = token ? { 'x-admin-token': token } : {};
 
   const fetchCategories = () => {
     if (!token) {
