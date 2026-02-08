@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mimi-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mimi
+      POSTGRES_PASSWORD: mimi_secret
+      POSTGRES_DB: mimi_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

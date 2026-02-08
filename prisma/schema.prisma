@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id     String    @id @default(cuid())
+  name   String
+  sort   Int       @default(0)
+  products Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  variants    ProductVariant[]
+}
+
+model ProductVariant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  price     Int
+  weight    String?
+  isActive  Boolean @default(true)
+}
+
+model PromoCode {
+  id       String   @id @default(cuid())
+  code     String   @unique
+  type     String
+  value    Int
+  minTotal Int?
+  isActive Boolean  @default(true)
+}
+
+model Order {
+  id            String     @id @default(cuid())
+  number        Int        @unique
+  status        String     @default("NEW")
+  paymentId     String?    // ID платежа в платёжной системе
+  paymentStatus String?    // PENDING, SUCCEEDED, FAILED
+  deliveryType  String
+  customerName String
+  phone        String
+  addressJson   String?
+  comment      String?
+  cutlery      Boolean    @default(false)
+  subtotal     Int
+  discount     Int        @default(0)
+  total        Int
+  promoCode    String?
+  desiredTime  String?
+  createdAt    DateTime   @default(now())
+  items        OrderItem[]
+}
+
+model OrderItem {
+  id             String  @id @default(cuid())
+  orderId        String
+  order          Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String
+  variantId      String?
+  nameSnapshot   String
+  variantSnapshot String?
+  priceSnapshot  Int
+  qty            Int
+}
