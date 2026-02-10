@@ -12,13 +12,12 @@ type ProductCardProps = {
   name: string;
   imageUrl: string | null;
   variants: Variant[];
-  onAdd: (productId: string, variantId: string | null, name: string, variantName: string | null, price: number, imageUrl?: string) => void;
+  onAdd?: (productId: string, variantId: string | null, name: string, variantName: string | null, price: number, imageUrl?: string) => void;
 };
 
-export function ProductCard({ id, name, imageUrl, variants, onAdd }: ProductCardProps) {
+export function ProductCard({ id, name, imageUrl, variants }: ProductCardProps) {
   const router = useRouter();
   const minPrice = variants.length ? Math.min(...variants.map((v) => v.price)) : 0;
-  const hasVariants = variants.length > 1;
 
   return (
     <div className="flex gap-3 rounded-xl bg-tg-secondary p-3">
@@ -46,17 +45,10 @@ export function ProductCard({ id, name, imageUrl, variants, onAdd }: ProductCard
         </p>
         <button
           type="button"
-          onClick={() => {
-            if (hasVariants) {
-              router.push(`/product/${id}`);
-              return;
-            }
-            const v = variants[0];
-            if (v) onAdd(id, v.id, name, v.name, v.price, imageUrl ?? undefined);
-          }}
+          onClick={() => router.push(`/product/${id}`)}
           className="tap-highlight mt-2 min-h-[44px] min-w-[44px] rounded-lg bg-tg-button px-4 py-3 text-sm font-medium text-tg-button-text active:opacity-90"
         >
-          {hasVariants ? 'Выбрать' : 'Добавить'}
+          Выбрать
         </button>
       </div>
     </div>
