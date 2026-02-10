@@ -27,6 +27,8 @@ function ProductPageInner() {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const addItem = useCartStore((s) => s.addItem);
+  const items = useCartStore((s) => s.items);
+  const updateQty = useCartStore((s) => s.updateQty);
 
   useEffect(() => {
     setMounted(true);
@@ -87,8 +89,6 @@ function ProductPageInner() {
   const selectedVariant = variants.find((v) => v?.id === selectedVariantId) ?? variants[0] ?? null;
   const canAdd = selectedVariant != null;
 
-  const items = useCartStore((s) => s.items);
-  const updateQty = useCartStore((s) => s.updateQty);
   const safeItems = mounted && Array.isArray(items) ? items : [];
   const cartQty =
     selectedVariant
