@@ -90,6 +90,19 @@ export default function ProductPage() {
 
   return (
     <div className="min-h-screen pb-8">
+      <header className="sticky top-0 z-20 flex items-center gap-2 border-b border-gray-200 bg-tg-bg/95 px-4 py-3 backdrop-blur">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="tap-highlight -ml-1 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-tg-text active:opacity-80"
+          aria-label="Назад"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h1 className="min-w-0 flex-1 truncate text-lg font-semibold text-tg-text">{product.name}</h1>
+      </header>
       <div className="relative aspect-[4/3] w-full bg-gray-100">
         {product.imageUrl ? (
           <Image
@@ -107,7 +120,7 @@ export default function ProductPage() {
         )}
       </div>
       <div className="px-4 py-4">
-        <h1 className="text-xl font-bold text-tg-text">{product.name}</h1>
+        <h2 className="text-xl font-bold text-tg-text">{product.name}</h2>
         {product.description && (
           <p className="mt-2 text-sm text-tg-hint">{product.description}</p>
         )}
