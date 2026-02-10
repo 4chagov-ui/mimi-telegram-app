@@ -74,6 +74,13 @@ export default function ProductPage() {
   const selectedVariant = product.variants.find((v) => v.id === selectedVariantId) ?? product.variants[0];
   const canAdd = selectedVariant != null;
 
+  const items = useCartStore((s) => s.items);
+  const updateQty = useCartStore((s) => s.updateQty);
+  const cartQty =
+    items.find(
+      (i) => i.productId === product.id && (i.variantId ?? '') === (selectedVariant?.id ?? '')
+    )?.qty ?? 0;
+
   const handleAdd = () => {
     if (!selectedVariant) return;
     addItem({
@@ -84,8 +91,8 @@ export default function ProductPage() {
       price: selectedVariant.price,
       imageUrl: product.imageUrl ?? undefined,
     });
-    showTelegramAlert('Добавлено в корзину');
-    router.push('/catalog');
+    const newQty = cartQty + 1;
+    showTelegramAlert(newQty > 1 ? `Добавлено в корзину (${newQty} шт.)` : 'Добавлено в корзину');
   };
 
   return (
@@ -143,18 +150,35 @@ export default function ProductPage() {
             ))}
           </div>
         </div>
-        <div className="mt-6 flex items-center justify-between gap-4">
+        <div className="mt-6 flex flex-wrap items-center gap-3">
           <span className="text-lg font-semibold text-tg-text">
             {selectedVariant ? formatMoney(selectedVariant.price) : '—'}
           </span>
-          <button
-            type="button"
-            onClick={handleAdd}
-            disabled={!canAdd}
-            className="tap-highlight min-h-[48px] rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
-          >
-            Добавить в корзину
-          </button>
+          <div className="flex flex-1 items-center justify-end gap-2">
+            {cartQty > 0 && (
+              <span className="text-sm text-tg-hint">В корзине: {cartQty}</span>
+            )}
+            {cartQty > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  if (selectedVariant) updateQty(product.id, selectedVariant.id, 1);
+                }}
+                className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-tg-button text-xl font-medium text-tg-button-text active:opacity-90"
+                aria-label="Добавить ещё одну"
+              >
+                +
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={handleAdd}
+              disabled={!canAdd}
+              className="tap-highlight min-h-[48px] rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
+            >
+              {cartQty > 0 ? 'Добавить ещё' : 'Добавить в корзину'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
