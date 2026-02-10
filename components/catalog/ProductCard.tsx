@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { formatMoney } from '@/lib/money';
@@ -25,12 +24,11 @@ export function ProductCard({ id, name, imageUrl, variants: rawVariants }: Produ
     <div className="flex gap-3 rounded-xl bg-tg-secondary p-3">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-200">
         {imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '' ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={imageUrl}
             alt={name}
-            fill
-            className="object-cover"
-            sizes="80px"
+            className="h-full w-full object-cover"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-2xl text-gray-400">

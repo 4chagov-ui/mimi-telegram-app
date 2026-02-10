@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import Link from 'next/link';
 import { formatMoney } from '@/lib/money';
 import { useCartStore } from '@/store/cart-store';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { showTelegramAlert } from '@/lib/telegram';
+import { ProductErrorBoundary } from '@/components/ProductErrorBoundary';
 
 type Variant = { id: string; name: string; price: number; weight: string | null };
 type Product = {
@@ -18,7 +18,7 @@ type Product = {
   variants: Variant[];
 };
 
-export default function ProductPage() {
+function ProductPageInner() {
   const params = useParams();
   const router = useRouter();
   const id = typeof params?.id === 'string' ? params.id : '';
@@ -128,13 +128,11 @@ export default function ProductPage() {
       </header>
       <div className="relative aspect-[4/3] w-full bg-gray-100">
         {product.imageUrl && String(product.imageUrl).trim() ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={product.imageUrl}
             alt={product.name ?? ''}
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
+            className="h-full w-full object-cover"
           />
         ) : (
           <div className="flex h-full items-center justify-center text-6xl text-gray-300">
@@ -201,5 +199,13 @@ export default function ProductPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductPage() {
+  return (
+    <ProductErrorBoundary>
+      <ProductPageInner />
+    </ProductErrorBoundary>
   );
 }
