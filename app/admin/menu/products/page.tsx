@@ -39,17 +39,16 @@ function ProductsContent() {
 
   const q = token ? `?token=${encodeURIComponent(token)}` : '';
   const qCat = categoryFilter ? `&categoryId=${encodeURIComponent(categoryFilter)}` : '';
-  const headers: Record<string, string> = token ? { 'x-admin-token': token } : {};
 
   const fetchProducts = () => {
-    fetch(`/api/admin/products${q}${qCat}`, { headers })
+    fetch(`/api/admin/products${q}${qCat}`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(setProducts)
       .catch(() => setError('Не удалось загрузить товары'));
   };
 
   const fetchCategories = () => {
-    fetch(`/api/admin/categories${q}`, { headers })
+    fetch(`/api/admin/categories${q}`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then(setCategories)
       .catch(() => {});
@@ -116,7 +115,7 @@ function ProductsContent() {
     if (editingProduct) {
       fetch(`/api/admin/products/${editingProduct.id}${q}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', ...headers },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: formName.trim(),
           description: formDescription.trim() || null,
@@ -131,7 +130,7 @@ function ProductsContent() {
       if (variants.length === 0) variants.push({ name: 'Порция', price: 0, weight: undefined });
       fetch(`/api/admin/products${q}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...headers },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           categoryId: formCategoryId,
           name: formName.trim(),
@@ -148,7 +147,7 @@ function ProductsContent() {
 
   const deleteProduct = (id: string) => {
     if (!token || !confirm('Удалить товар?')) return;
-    fetch(`/api/admin/products/${id}${q}`, { method: 'DELETE', headers })
+    fetch(`/api/admin/products/${id}${q}`, { method: 'DELETE' })
       .then((r) => (r.ok ? fetchProducts() : Promise.reject()))
       .catch(() => setError('Не удалось удалить'));
   };
@@ -228,7 +227,7 @@ function ProductsContent() {
                       if (!newVariantName.trim()) return;
                       fetch(`/api/admin/product-variants${q}`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json', ...headers },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
                           productId: editingProduct.id,
                           name: newVariantName.trim(),
@@ -236,7 +235,7 @@ function ProductsContent() {
                           weight: newVariantWeight.trim() || undefined,
                         }),
                       })
-                        .then((r) => r.ok ? fetch(`/api/admin/products/${editingProduct.id}${q}`, { headers }) : Promise.reject())
+                        .then((r) => r.ok ? fetch(`/api/admin/products/${editingProduct.id}${q}`) : Promise.reject())
                         .then((r) => r.json())
                         .then((updated) => {
                           setNewVariantName('');

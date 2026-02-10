@@ -19,7 +19,6 @@ function CategoriesContent() {
   const [addSort, setAddSort] = useState(0);
 
   const q = token ? `?token=${encodeURIComponent(token)}` : '';
-  const headers: Record<string, string> = token ? { 'x-admin-token': token } : {};
 
   const fetchCategories = () => {
     if (!token) {
@@ -27,7 +26,7 @@ function CategoriesContent() {
       setLoading(false);
       return;
     }
-    fetch(`/api/admin/categories${q}`, { headers })
+    fetch(`/api/admin/categories${q}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error('Ошибка'))))
       .then(setCategories)
       .catch(() => setError('Не удалось загрузить'))
@@ -42,7 +41,7 @@ function CategoriesContent() {
     if (!editingId || !token) return;
     fetch(`/api/admin/categories/${editingId}${q}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...headers },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: editName, sort: editSort }),
     })
       .then((r) => (r.ok ? (setEditingId(null), fetchCategories()) : Promise.reject()))
@@ -53,7 +52,7 @@ function CategoriesContent() {
     if (!token || !addName.trim()) return;
     fetch(`/api/admin/categories${q}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', ...headers },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: addName.trim(), sort: addSort }),
     })
       .then((r) => (r.ok ? (setShowAdd(false), setAddName(''), setAddSort(0), fetchCategories()) : Promise.reject()))
@@ -62,7 +61,7 @@ function CategoriesContent() {
 
   const deleteCat = (id: string) => {
     if (!token || !confirm('Удалить категорию? Товары в ней тоже удалятся.')) return;
-    fetch(`/api/admin/categories/${id}${q}`, { method: 'DELETE', headers })
+    fetch(`/api/admin/categories/${id}${q}`, { method: 'DELETE' })
       .then((r) => (r.ok ? fetchCategories() : Promise.reject()))
       .catch(() => setError('Не удалось удалить'));
   };

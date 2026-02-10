@@ -60,7 +60,7 @@ function AdminOrdersContent() {
     const url = statusFilter
       ? `/api/admin/orders?token=${encodeURIComponent(token)}&status=${statusFilter}`
       : `/api/admin/orders?token=${encodeURIComponent(token)}`;
-    fetch(url, { headers: { 'x-admin-token': token } })
+    fetch(url)
       .then((r) => {
         if (r.status === 401) throw new Error('Неверный токен');
         return r.json();
@@ -78,7 +78,7 @@ function AdminOrdersContent() {
   const updateStatus = (orderId: string, status: string) => {
     fetch(`/api/admin/orders/${orderId}/status?token=${encodeURIComponent(token)}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', 'x-admin-token': token },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     })
       .then((r) => (r.ok ? fetchOrders() : Promise.reject()))
