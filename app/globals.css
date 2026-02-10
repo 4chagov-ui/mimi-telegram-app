@@ -23,3 +23,9 @@ body {
 #telegram-script-placeholder {
   display: none;
 }
+
+/* Удобнее нажатия на мобильных: убираем задержку и даём визуальный отклик */
+.tap-highlight {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.08);
+}

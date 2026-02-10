@@ -50,7 +50,7 @@ export default function CatalogPage() {
           <h1 className="text-xl font-bold text-tg-text">МИМИ</h1>
           <Link
             href="/cart"
-            className="relative rounded-full bg-tg-secondary p-2 text-tg-text"
+            className="tap-highlight relative flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-tg-secondary p-2 text-tg-text active:opacity-90"
           >
             🛒
             {cartCount > 0 && (
@@ -64,7 +64,7 @@ export default function CatalogPage() {
           <button
             type="button"
             onClick={() => setDeliveryType('DELIVERY')}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium ${
+            className={`tap-highlight flex-1 rounded-lg py-3 text-sm font-medium min-h-[44px] active:opacity-90 ${
               deliveryType === 'DELIVERY'
                 ? 'bg-tg-button text-tg-button-text'
                 : 'bg-tg-secondary text-tg-text'
@@ -75,7 +75,7 @@ export default function CatalogPage() {
           <button
             type="button"
             onClick={() => setDeliveryType('PICKUP')}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium ${
+            className={`tap-highlight flex-1 rounded-lg py-3 text-sm font-medium min-h-[44px] active:opacity-90 ${
               deliveryType === 'PICKUP'
                 ? 'bg-tg-button text-tg-button-text'
                 : 'bg-tg-secondary text-tg-text'
@@ -107,7 +107,7 @@ export default function CatalogPage() {
               <button
                 type="button"
                 onClick={() => window.location.reload()}
-                className="rounded-lg bg-tg-button px-4 py-2 text-sm text-tg-button-text"
+                className="tap-highlight min-h-[44px] rounded-lg bg-tg-button px-4 py-3 text-sm text-tg-button-text active:opacity-90"
               >
                 Обновить
               </button>

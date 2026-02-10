@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { formatMoney } from '@/lib/money';
 
 type Variant = { id: string; name: string; price: number };
@@ -15,6 +16,7 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ id, name, imageUrl, variants, onAdd }: ProductCardProps) {
+  const router = useRouter();
   const minPrice = variants.length ? Math.min(...variants.map((v) => v.price)) : 0;
   const hasVariants = variants.length > 1;
 
@@ -46,12 +48,13 @@ export function ProductCard({ id, name, imageUrl, variants, onAdd }: ProductCard
           type="button"
           onClick={() => {
             if (hasVariants) {
+              router.push(`/product/${id}`);
               return;
             }
             const v = variants[0];
             if (v) onAdd(id, v.id, name, v.name, v.price, imageUrl ?? undefined);
           }}
-          className="mt-2 rounded-lg bg-tg-button px-3 py-1.5 text-sm font-medium text-tg-button-text"
+          className="tap-highlight mt-2 min-h-[44px] min-w-[44px] rounded-lg bg-tg-button px-4 py-3 text-sm font-medium text-tg-button-text active:opacity-90"
         >
           {hasVariants ? 'Выбрать' : 'Добавить'}
         </button>

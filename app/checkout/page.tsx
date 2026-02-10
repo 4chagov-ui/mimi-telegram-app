@@ -262,7 +262,7 @@ export default function CheckoutPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-6 w-full rounded-xl bg-tg-button py-3 font-medium text-tg-button-text disabled:opacity-50"
+          className="tap-highlight mt-6 min-h-[48px] w-full rounded-xl bg-tg-button py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
         >
           {loading ? 'Отправка...' : 'Подтвердить заказ'}
         </button>

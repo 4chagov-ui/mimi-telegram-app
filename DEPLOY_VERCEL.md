@@ -67,7 +67,36 @@ git push -u origin main
 
 Для каждой переменной выбери **Production** (и при необходимости Preview). Сохрани.
 
-После добавления **NEXT_PUBLIC_APP_URL** сделай **Redeploy**: вкладка **Deployments** → у последнего деплоя три точки → **Redeploy**.
+---
+
+### Подробно: как задать DATABASE_URL и сделать Redeploy
+
+1. **Зайди в проект на Vercel**  
+   [vercel.com](https://vercel.com) → **Dashboard** → выбери свой проект (например `mimi-telegram-app`).
+
+2. **Открой настройки переменных**  
+   В верхнем меню проекта: **Settings** → в левом сайдбаре выбери **Environment Variables**.
+
+3. **Добавь DATABASE_URL**  
+   - В поле **Key** введи: `DATABASE_URL`  
+   - В поле **Value** вставь полную строку подключения к Supabase **с параметром SSL в конце**:  
+     `postgresql://postgres.jdhtdggncjgvmckhabxk:ТВОЙ_ПАРОЛЬ@aws-1-eu-west-1.pooler.supabase.com:5432/postgres?sslmode=require`  
+     (строка из Supabase: **Settings** → **Database** → **Connection string** → вкладка **URI**; подставь пароль вместо `[YOUR-PASSWORD]` и добавь в конец **`?sslmode=require`** — без этого подключение с Vercel часто падает).  
+   - Отметь окружения: **Production** (и при желании **Preview**).  
+   - Нажми **Save**.
+
+4. **Сохрани остальные переменные** (если ещё не добавлены):  
+   `ADMIN_TOKEN`, `TG_BOT_TOKEN`, `TG_CHAT_ID`, `NEXT_PUBLIC_APP_URL` — так же: Key, Value, окружения, Save.
+
+5. **Сделать Redeploy, чтобы приложение подхватило переменные**  
+   - В верхнем меню проекта перейди на вкладку **Deployments**.  
+   - В списке деплоев найди последний (самый верхний).  
+   - Справа у этого деплоя нажми на **три точки (⋯)**.  
+   - В меню выбери **Redeploy**.  
+   - В диалоге подтверди **Redeploy** (без изменений — просто пересобрать с текущими переменными).  
+   - Дождись окончания сборки (статус **Ready**).  
+
+После этого приложение на Vercel будет использовать твою базу Supabase. Каталог и заказы будут читаться/писаться в неё.
 
 ---
 

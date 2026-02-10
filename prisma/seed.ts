@@ -2,8 +2,12 @@ import path from 'path';
 import { config } from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 
-// Загружаем .env из корня проекта (рядом с prisma/)
-config({ path: path.resolve(__dirname, '..', '.env') });
+// Загружаем .env, но не перезаписываем переменные из командной строки (например DATABASE_URL)
+config({ path: path.resolve(__dirname, '..', '.env'), override: false });
+
+const dbUrl = process.env.DATABASE_URL ?? '';
+const host = dbUrl.replace(/:[^:@]+@/, ':****@').replace(/^[^@]+@/, '');
+console.log('Seed: connecting to', host || '(no DATABASE_URL)');
 
 const prisma = new PrismaClient();
 

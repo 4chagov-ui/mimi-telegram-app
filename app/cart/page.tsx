@@ -91,7 +91,7 @@ export default function CartPage() {
           children={
             <Link
               href="/catalog"
-              className="rounded-lg bg-tg-button px-4 py-2 text-tg-button-text"
+              className="tap-highlight min-h-[44px] inline-flex items-center rounded-lg bg-tg-button px-4 py-3 text-tg-button-text active:opacity-90"
             >
               В каталог
             </Link>
@@ -124,15 +124,15 @@ export default function CartPage() {
                 <button
                   type="button"
                   onClick={() => updateQty(i.productId, i.variantId, -1)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-300 text-lg font-medium text-tg-text"
+                  className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-gray-300 text-lg font-medium text-tg-text active:opacity-90"
                 >
                   −
                 </button>
-                <span className="w-8 text-center font-medium">{i.qty}</span>
+                <span className="min-w-[2rem] text-center font-medium">{i.qty}</span>
                 <button
                   type="button"
                   onClick={() => updateQty(i.productId, i.variantId, 1)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-tg-button text-lg font-medium text-tg-button-text"
+                  className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-tg-button text-lg font-medium text-tg-button-text active:opacity-90"
                 >
                   +
                 </button>
@@ -175,7 +175,7 @@ export default function CartPage() {
           <button
             type="button"
             onClick={applyPromo}
-            className="rounded-lg bg-tg-secondary px-4 py-2 text-sm font-medium text-tg-text"
+            className="tap-highlight min-h-[44px] rounded-lg bg-tg-secondary px-4 py-3 text-sm font-medium text-tg-text active:opacity-90"
           >
             Применить
           </button>

@@ -119,7 +119,7 @@ export default function ProductPage() {
                 key={v.id}
                 type="button"
                 onClick={() => setSelectedVariantId(v.id)}
-                className={`rounded-lg border px-4 py-2 text-sm ${
+                className={`tap-highlight min-h-[44px] rounded-lg border px-4 py-3 text-sm active:opacity-90 ${
                   selectedVariantId === v.id
                     ? 'border-tg-button bg-tg-button text-tg-button-text'
                     : 'border-gray-300 bg-tg-bg text-tg-text'
@@ -138,7 +138,7 @@ export default function ProductPage() {
             type="button"
             onClick={handleAdd}
             disabled={!canAdd}
-            className="rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text disabled:opacity-50"
+            className="tap-highlight min-h-[48px] rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
           >
             Добавить в корзину
           </button>
