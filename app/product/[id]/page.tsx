@@ -195,14 +195,16 @@ function ProductPageInner() {
                 </button>
               </>
             )}
-            <button
-              type="button"
-              onClick={handleAdd}
-              disabled={!canAdd}
-              className="tap-highlight min-h-[48px] rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
-            >
-              {cartQty > 0 ? 'Добавить ещё' : 'Добавить в корзину'}
-            </button>
+            {cartQty === 0 && (
+              <button
+                type="button"
+                onClick={handleAdd}
+                disabled={!canAdd}
+                className="tap-highlight min-h-[48px] rounded-xl bg-tg-button px-6 py-3 font-medium text-tg-button-text active:opacity-90 disabled:opacity-50"
+              >
+                Добавить в корзину
+              </button>
+            )}
           </div>
         </div>
       </div>
