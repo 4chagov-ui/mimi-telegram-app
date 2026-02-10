@@ -173,19 +173,27 @@ function ProductPageInner() {
               ? formatMoney(selectedVariant.price)
               : '—'}
           </span>
-          <div className="flex flex-1 items-center justify-end gap-2">
-            {cartQty > 0 && (
-              <span className="text-sm text-tg-hint">В корзине: {cartQty}</span>
-            )}
+          <div className="flex flex-1 flex-wrap items-center justify-end gap-2">
             {cartQty > 0 && selectedVariant && (
-              <button
-                type="button"
-                onClick={() => updateQty(product.id, selectedVariant.id, 1)}
-                className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-tg-button text-xl font-medium text-tg-button-text active:opacity-90"
-                aria-label="Добавить ещё одну"
-              >
-                +
-              </button>
+              <>
+                <button
+                  type="button"
+                  onClick={() => updateQty(product.id, selectedVariant.id, -1)}
+                  className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-gray-300 text-xl font-medium text-tg-text active:opacity-90"
+                  aria-label="Убрать одну"
+                >
+                  −
+                </button>
+                <span className="min-w-[2rem] text-center text-sm text-tg-hint">В корзине: {cartQty}</span>
+                <button
+                  type="button"
+                  onClick={() => updateQty(product.id, selectedVariant.id, 1)}
+                  className="tap-highlight flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-tg-button text-xl font-medium text-tg-button-text active:opacity-90"
+                  aria-label="Добавить ещё одну"
+                >
+                  +
+                </button>
+              </>
             )}
             <button
               type="button"
