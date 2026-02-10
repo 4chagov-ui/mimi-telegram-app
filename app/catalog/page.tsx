@@ -21,11 +21,16 @@ export default function CatalogPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const deliveryType = useCartStore((s) => s.deliveryType);
   const setDeliveryType = useCartStore((s) => s.setDeliveryType);
   const addItem = useCartStore((s) => s.addItem);
   const items = useCartStore((s) => s.items);
   const getSubtotal = useCartStore((s) => s.getSubtotal);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     fetch('/api/menu')
@@ -41,7 +46,7 @@ export default function CatalogPage() {
 
   const activeCategory = categories.find((c) => c.id === activeCategoryId);
   const products = activeCategory?.products ?? [];
-  const cartCount = items.reduce((s, i) => s + i.qty, 0);
+  const cartCount = mounted ? items.reduce((s, i) => s + i.qty, 0) : 0;
 
   return (
     <div className="min-h-screen pb-24">
@@ -123,9 +128,9 @@ export default function CatalogPage() {
               <ProductCard
                 key={p.id}
                 id={p.id}
-                name={p.name}
-                imageUrl={p.imageUrl}
-                variants={p.variants}
+                name={String(p.name ?? '')}
+                imageUrl={p.imageUrl ?? null}
+                variants={Array.isArray(p.variants) ? p.variants : []}
                 onAdd={(productId, variantId, name, variantName, price, imageUrl) =>
                   addItem({
                     productId,

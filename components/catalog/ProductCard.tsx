@@ -15,14 +15,16 @@ type ProductCardProps = {
   onAdd?: (productId: string, variantId: string | null, name: string, variantName: string | null, price: number, imageUrl?: string) => void;
 };
 
-export function ProductCard({ id, name, imageUrl, variants }: ProductCardProps) {
+export function ProductCard({ id, name, imageUrl, variants: rawVariants }: ProductCardProps) {
   const router = useRouter();
-  const minPrice = variants.length ? Math.min(...variants.map((v) => v.price)) : 0;
+  const variants = Array.isArray(rawVariants) ? rawVariants : [];
+  const prices = variants.map((v) => (typeof v?.price === 'number' ? v.price : 0));
+  const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
   return (
     <div className="flex gap-3 rounded-xl bg-tg-secondary p-3">
       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-200">
-        {imageUrl ? (
+        {imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '' ? (
           <Image
             src={imageUrl}
             alt={name}
